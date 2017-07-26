@@ -7,9 +7,9 @@ Linux
 ### 一、命令基本格式
 
 #### 命令提示符
-[root@loacalhost ~]#  
-其中：  
-    root                当前登录用户  
+    [root@loacalhost ~]#  
+    其中：  
+    root                当前登录用户
     loacalhost          主机名  
     ~                   当前所在目录（家目录）  
                         超级用户 /root          普通用户 /home/user1/  
@@ -18,21 +18,20 @@ Linux
                         普通用户的提示符是$  
 
 #### 命令格式
-命令 [选项]  [参数]  
-注意：  个别命令使用不遵循此格式  
+    命令 [选项]  [参数]  
+    注意：  个别命令使用不遵循此格式  
         当有多个选项时，可以写在一起  
         简化选项与完整选项  
             -a 等于 --all  
 
-ls [选项]  [文件或目录]  
-
-选项：  -a  显示所有文件，包括隐藏文件  
+    ls [选项]  [文件或目录]  
+    选项：  -a  显示所有文件，包括隐藏文件  
         -l  显示详细信息  
         -d  查看目录属性  
         -h  人性化显示文件大小  
         -i  显示inode  
-例子：  
-ls -l  
+
+    例：ls -l  
 -rw-r--r--. 1 root root 1207 1月 14 18:18 abc.cfg  
     文件类型（-：文件    d：目录    l：软链接文件）  
     rw-      r--      r--  
@@ -40,18 +39,20 @@ ls -l
     r读 w写 x执行  
     .  ACL权限  
     1  引用计数  
+    前面的root是用户  
+    后面的root是用户组  
 
-ls /    查看目录文件
+    ls /    查看目录文件
 
 ### 二、文件处理命令
 
 #### 目录处理命令
 ##### 建立目录：mkdir
-mkdir -p [目录]  
+    mkdir -p [目录]  
     -p  递归创建目录，例如 mkdir -p abc/d  
 
 ##### 切换目录：cd
-cd [目录]  
+    cd [目录]  
     简化操作：  
     cd ~    进入当前用户的家目录  
     cd  
@@ -147,7 +148,7 @@ ln -s [原文件]  [目标文件]
 
 ### 三、文件搜索命令
 
-#### 文件搜索命令locate
+#### 文件搜索命令：locate
 locate [文件名]  
 在后台数据库中按文件名搜索，搜索速度更快  
 
@@ -159,7 +160,7 @@ locate [文件名]
     找到与locate相关的文件  
     
 
-#### 命令搜索命令whereis和which
+#### 命令搜索命令：whereis和which
 whereis 命令名  
 搜索命令所在路径及帮助文档所在位置  
 选项：  
@@ -171,7 +172,12 @@ which 命令名
 
 
 * whoami命令，whatis ls命令
-
+* PATH环境变量
+定义的是系统搜索命令的路径  
+若以后自己写一个命令，为了方便不写命令所在的全路径，可以在PATH下定义  
+[root@localhost ~]# echo $PATH  
+/usr/lib/qt-3.3/bin:  
+/usr/local/sbin:/usr/local/bin:/sbin/bin:/usr/sbin:/usr/bin:root/bin  
 
 ##### 配置文件（针对上述两类命令）：/etc/updatadb.conf
 1、PRUNE_BIND_MOUNTS = "yes"  
@@ -183,15 +189,39 @@ which 命令名
 4、PRUNEPATHS =   
 搜索时，不搜索的路径  
 
-#### 文件搜索命令find
+#### 文件搜索命令：find
+    find [搜索范围]  [搜索条件]  
+搜索文件  
+
+find / -name install.log  
+避免大范围搜索，会非常耗费系统资源  
+find是在系统当中搜索符合条件的文件名，如需要匹配，使用通配符匹配。  
+##### 不区分大小写
+    find /root -iname aaa.log  
+##### 按照所有者搜索，搜索user所有的文件
+    find /root -user root  
+##### 查找没有所有者的文件
+    find /root -nouser  
+    /proc和/sys目录下的内核文件，拷贝的外来文件没有所有者，
+    除了这两种情况，都是垃圾文件  
+##### find /var/log/ -mtime + 10
+    查找10天前修改的文件 
 
 
+* Linux中的通配符
+    "*"任意内容  "?"任意一个字符  "[]"任意一个中括号内的字符    
+    find /root -name "abc.log"* 
 
-#### 文件搜索命令locate
 
-### 四、压缩与解压命令
+#### 字符串搜索命令：grep
 
-### 五、关机和重启命令
+#### find命令与grep命令的区别
+
+### 四、版主命令
+
+### 五、压缩与解压命令
+
+### 六、关机和重启命令
 
 ### 六、其他命令
 
