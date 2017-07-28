@@ -1,5 +1,3 @@
-Linux
-
 ## Linux常用命令格式
 
 ---
@@ -314,9 +312,148 @@ Linux
 
     常见压缩格式： .zip  .gz  .bz2  .tar.gz  .tar.bz2
 
+#### 1、.zip压缩格式
+    与windows是公用的
 
+##### 1.压缩文件
+    zip 压缩文件名 源文件
+
+##### 2.压缩目录
+    zip -r 压缩文件名 源文件
+
+##### 3.解压缩
+    unzip 压缩文件
+
+#### 2、.gz压缩格式
+    可以在windows下解压缩
+
+##### 1.压缩为.gz格式文件，源文件会消失
+    gzip 源文件
+
+##### 2.压缩为.gz格式文件，源文件保留
+    gzip -c 源文件 > 压缩文件
+    这里 > 符号，是把输出的结果储存在目标文件中
+    例如：
+        gzip -c abc > abc.gz
+        ls > abc
+
+##### 3.压缩目录下所有的子文件，但不能压缩目录
+    gzip -r 目录
+
+##### 4.解压缩
+    gzip -d 压缩文件
+    或 gunzip 压缩文件
+    对于目录： gzip -r 压缩文件
+
+#### 3、.bz2压缩格式
+    bzip2命令不能压缩目录
+
+##### 1.压缩为.bz2格式文件，源文件会消失
+    bzip2 源文件
+
+##### 2.压缩为.bz2格式文件，源文件保留
+    bzip2 -k 源文件
+
+##### 3.解压缩
+    bzip2 -d 压缩文件
+    或 bunzip2 压缩文件
+    注意： -k保留压缩文件
+
+#### 4、.tar.gz和.tar.bz2压缩格式
+    tar命令可以将目录进行打包，而.tar.gz或.bz2可以实现先打包为.tar格式，再压缩为.gz或.bz2格式，其中tar命令如下：
+##### 1.打包命令tar
+    tar -cvf 打包文件名 源文件
+    选项：
+        -c:     打包
+        -v:     显示过程
+        -f:     指定打包后的文件名
+    例如：
+        tar -cvf aaa.tar aaa
+
+##### 2.解压缩tar
+    tar -xvf 打包文件名
+    选项：
+        -x:     解打包
+
+##### 3.压缩
+    tar -zcvf 压缩包名.tar.gz 源文件
+    tar -jcvf 压缩包名.tar.bz2 源文件
+
+##### 4.解压缩
+    tar -zxvf 压缩包名.tar.gz
+    tar -jxvf 压缩包名.tar.bz2
+
+    指定解压缩位置：
+    tar -jxvf 压缩包名 -C /temp/
+
+    压缩多个文件至temp文件夹
+    tar -zcvf /temp/test.tar.gz a1 a2
+
+##### 5.只查看，不解压
+    tar -ztvf test.tar.gz
 
 ### 六、关机和重启命令
 
-### 六、其他命令
+#### 1、shutdown命令（较安全）
+    [root@localhost ~]# shutdown [选项] 时间
+    选项：
+        -c:     取消前一个关机命令
+        -h:     关机
+        -r：    重启
+    时间：now
 
+#### 2、其他关机命令(不安全)
+    [root@localhost ~]# halt
+    [root@localhost ~]# powerooff
+    [root@localhost ~]# init 0
+
+#### 3、其他重启命令
+    [root@localhost ~]# reboot
+    [root@localhost ~]# init 6
+
+#### 系统运行级别：
+    0   关机
+    1   单用户（类似于安全模式）
+    2   不完全多用户，不含NFS服务
+    3   完全多用户（普通界面）
+    4   未分配
+    5   图形界面
+    6   重启
+    [root@localhost ~]# cat/etc/inittab 
+    修改系统默认运行级别
+    id:3:initdefault
+    
+    [root@localhost ~]# runlevel
+    查询系统运行级别
+    N 3
+
+#### 4、退出登录命令
+    [root@localhost ~]# logout
+
+    - & 将命令放在后台执行
+
+### 七、其他命令
+
+#### 1、Linux中挂载命令
+    用户登录查看和用户交互命令，可以理解为windows中分配盘符
+    一般为开机自动挂载，而光盘、U盘等需要人为挂载
+
+##### 1.查询与自动挂载
+    [root@localhost ~]# mount
+    查询系统中已经挂载的设备
+    例：
+    /dev/sda5/ on / type ext4 (rw)
+    硬件设备的命令，第一块sd硬盘的第一个逻辑分区是根分区，文件系统是ext4，权限是读写
+
+    [root@localhost ~]# mount -a
+    根据配置文件/etc/fstab的内容，自动挂载
+    尽量不要把自己的光盘U盘等也写入该配置文件，因为若忘记插入光盘，系统会崩溃
+
+##### 2.挂载命令格式
+    [root@localhost ~]# mount [-t 文件系统] [-o 特殊选项] 设备文件名 挂载点
+    选项：
+        -t 文件系统：加入文件系统类型来指定挂载的类型，可以ext3、ext4、iso9660等文件系统
+        -o 特殊选项：可以指定挂载的额外选项
+
+
+#### 2、用户登录查看命令
