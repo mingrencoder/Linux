@@ -455,7 +455,7 @@
         -t 文件系统：加入文件系统类型来指定挂载的类型，可以ext3、ext4(centOS6以上)、iso9660(光盘标准)等文件系统
         -o 特殊选项：可以指定挂载的额外选项
     例：
-        mount -o remount,noexec /home/ 重新挂载分区，可执行文件无权限
+        mount -o remount,noexec /home/ 重新挂载分区，对可执行文件没有权限
 
 ##### 3.挂载光盘
     [root@localhost ~]# mkdir /mnt/cdrom
