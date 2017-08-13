@@ -54,7 +54,7 @@
     cd [目录]
     简化操作：
     cd ~    进入当前用户的家目录
-    cd
+    cd      进入当前用户的家目录
     cd -    进入上次目录
     cd ..   进入上一级目录
     cd .    进入当前目录
@@ -446,14 +446,49 @@
     硬件设备的命令，第一块sd硬盘的第一个逻辑分区是根分区，文件系统是ext4，权限是读写
 
     [root@localhost ~]# mount -a
-    根据配置文件/etc/fstab的内容，自动挂载
+    根据配置文件/etc/fstab的内容，(开机)自动挂载
     尽量不要把自己的光盘U盘等也写入该配置文件，因为若忘记插入光盘，系统会崩溃
 
 ##### 2.挂载命令格式
     [root@localhost ~]# mount [-t 文件系统] [-o 特殊选项] 设备文件名 挂载点
     选项：
-        -t 文件系统：加入文件系统类型来指定挂载的类型，可以ext3、ext4、iso9660等文件系统
+        -t 文件系统：加入文件系统类型来指定挂载的类型，可以ext3、ext4(centOS6以上)、iso9660(光盘标准)等文件系统
         -o 特殊选项：可以指定挂载的额外选项
+    例：
+        mount -o remount,noexec /home/ 重新挂载分区，可执行文件无权限
 
+##### 3.挂载光盘
+    [root@localhost ~]# mkdir /mnt/cdrom
+    建立挂载点
+
+    [root@localhost ~]# mount -t iso9660 /dev/cdrom /mnt/cdrom/
+    相当于
+    [root@localhost ~]# mount -t iso9660 /dev/sr0 /mnt/cdrom/
+    挂载光盘
+
+##### 4.卸载光盘
+    [root@localhost ~]# umount 设备文件名或挂载点
+
+##### 5.挂载U盘
+    [root@localhost ~]# fdisk -l
+    查看U盘设备文件名
+
+    [root@localhost ~]# mount -t vfat /dev/sdb1 /mnt/usd/
+    vfat:   U盘文件系统默认是fat32位系统
+    sdb1:   这里是上面看到的名字
+
+    注意：Linux默认是不支持NTFS文件系统的
 
 #### 2、用户登录查看命令
+##### 1.查看登录用户信息
+    w 用户名
+    更为详细
+    who
+    更为简单
+
+##### 2.查看当前登录和过去登录的用户信息
+    last
+    查询的是/var/log/wtmp二进制文件
+
+##### 3.查看所有用户的最后一次登录时间
+    lastlog
